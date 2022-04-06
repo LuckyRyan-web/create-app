@@ -80,9 +80,6 @@ async function init() {
 
     const defaultProjectName = !targetDir ? 'project' : targetDir
 
-    console.log(targetDir)
-    console.log(template)
-
     let result: {
         [key: string]: any
     } = {}
