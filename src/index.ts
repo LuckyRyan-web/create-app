@@ -1,6 +1,6 @@
 import prompts from "prompts"
 import minimist from 'minimist'
-import { red, green, reset } from 'kolorist'
+import { red, green, reset, blue } from 'kolorist'
 import fs from 'fs'
 import path from 'path'
 
@@ -8,12 +8,19 @@ const cwd = process.cwd()
 
 const TEMPLATES = [
     {
-        name: "vue",
+        title: "vue",
+        value: "vue",
         color: green,
     },
     {
-        name: "rollup",
+        title: "rollup",
+        value: "rollup",
         color: red
+    },
+    {
+        title: "react",
+        value: "react",
+        color: blue
     }
 ]
 
@@ -121,26 +128,17 @@ async function init() {
                 isValidPackageName(dir) || 'Invalid package.json name'
         },
         {
-            type: template && TEMPLATES.some((v) => v.name === template) ? null : 'select',
+            type: template && TEMPLATES.some((v) => v.title === template) ? null : 'select',
             name: "framework",
             message:
-                typeof template === 'string' && !TEMPLATES.some((v) => v.name === template)
+                typeof template === 'string' && !TEMPLATES.some((v) => v.title === template)
                     ? reset(
                         `"${template}" isn't a valid template. Please choose from below: `
                     )
                     : reset('Select a framework:'),
 
             initial: 0,
-            choices: [
-                {
-                    title: 'vue',
-                    value: 'vue'
-                },
-                {
-                    title: 'rollup',
-                    value: 'rollup'
-                }
-            ]
+            choices: TEMPLATES
         }
     ], {
         onCancel: () => {
@@ -159,7 +157,7 @@ async function init() {
     }
 
     /** 模板可以来源于 -t 参数和模板选择 */
-    if (!TEMPLATES.some((v) => v.name === template)) {
+    if (!TEMPLATES.some((v) => v.title === template)) {
         template = framework
     }
 
