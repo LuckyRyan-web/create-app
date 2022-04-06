@@ -1,17 +1,19 @@
 {
   "name": "@ryan-liu/create-app",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.cjs",
   "license": "MIT",
+  "type": "module",
   "bin": {
-    "create-app": "dist/index.js"
+    "create-app": "dist/index.cjs"
   },
   "files": [
     "dist",
-    "template-*"
+    "templates-*"
   ],
   "scripts": {
-
+    "dev": "yarn build --watch",
+    "build": "tsup ./src/index.ts --format cjs --onSuccess 'node tools/file.js'"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -22,5 +24,19 @@
   },
   "bugs": {
     "url": "https://github.com/LuckyRyan-web/create-app/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "tsup": "^5.12.4",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@types/prompts": "^2.0.14",
+    "minimist": "^1.2.6",
+    "prompts": "^2.4.2"
   }
 }
