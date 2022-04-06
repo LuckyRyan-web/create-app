@@ -9,7 +9,7 @@
   },
   "files": [
     "dist",
-    "templates-*"
+    "template-*"
   ],
   "scripts": {
     "dev": "yarn build --watch",
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@types/prompts": "^2.0.14",
+    "kolorist": "^1.5.1",
     "minimist": "^1.2.6",
     "prompts": "^2.4.2"
   }
