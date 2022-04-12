@@ -6,23 +6,46 @@ import path from 'path'
 
 const cwd = process.cwd()
 
-const TEMPLATES = [
+/** 模板列表 */
+const FRAMEWORKS = [
     {
         title: "vue",
+        name: "vue",
         value: "vue",
+        description: "vue3 jsx vite 版本",
         color: green,
     },
     {
         title: "rollup",
+        name: "rollup",
         value: "rollup",
+        description: "一个简单的 rollup 打包库",
         color: red
     },
     {
         title: "react",
+        name: "react",
         value: "react",
-        color: blue
+        color: blue,
+        variants: [
+            {
+                name: "react-17",
+                description: "react-17 vite 版本",
+                color: green
+            },
+            {
+                name: "react-18",
+                description: "react-18 webpack5 版本",
+                color: blue
+            }
+        ]
     }
 ]
+
+/** 解析所有模板列表到数组 */
+const TEMPLATES = FRAMEWORKS.map(
+    (f) => (f.variants && f.variants.map((v) => v.name)) || [f.name]
+).reduce((a, b) => a.concat(b), [])
 
 function copy(src: string, dest: string) {
     const stat = fs.statSync(src)
@@ -82,7 +105,10 @@ function emptyDir(dir: string) {
 async function init() {
     const argv = minimist(process.argv.slice(2), { string: ['_'] })
 
+    /** 创建目标文件夹 */
     let targetDir = argv._[0]
+
+    /** 获取 -t 参数 */
     let template = argv.template || argv.t
 
     const defaultProjectName = !targetDir ? 'project' : targetDir
@@ -128,17 +154,39 @@ async function init() {
                 isValidPackageName(dir) || 'Invalid package.json name'
         },
         {
-            type: template && TEMPLATES.some((v) => v.title === template) ? null : 'select',
+            type: template && TEMPLATES.includes(template) ? null : 'select',
             name: "framework",
             message:
-                typeof template === 'string' && !TEMPLATES.some((v) => v.title === template)
+                typeof template === 'string' && !TEMPLATES.includes(template)
                     ? reset(
                         `"${template}" isn't a valid template. Please choose from below: `
                     )
                     : reset('Select a framework:'),
 
             initial: 0,
-            choices: TEMPLATES
+            choices: FRAMEWORKS.map((framework) => {
+                const frameworkColor = framework.color
+                return {
+                    title: frameworkColor(framework.name),
+                    value: framework,
+                    description: framework.description
+                }
+            })
+        },
+        {
+            type: (framework) =>
+                framework && framework.variants ? 'select' : null,
+            name: 'variant',
+            message: reset('Select a variant:'),
+            choices: (framework) =>
+                framework.variants.map((variant) => {
+                    const variantColor = variant.color
+                    return {
+                        title: variantColor(variant.name),
+                        value: variant.name,
+                        description: variant.description
+                    }
+                })
         }
     ], {
         onCancel: () => {
@@ -146,7 +194,7 @@ async function init() {
         },
     })
 
-    const { packageName, framework, overwrite } = result
+    const { packageName, overwrite, framework, variant } = result
 
     const root = path.join(cwd, targetDir)
 
@@ -157,11 +205,11 @@ async function init() {
     }
 
     /** 模板可以来源于 -t 参数和模板选择 */
-    if (!TEMPLATES.some((v) => v.title === template)) {
-        template = framework
-    }
+    // if (!TEMPLATES.includes(template)) {
+    //     template = framework
+    // }
 
-    let result_template = framework || template
+    let result_template = variant || framework || template
 
     /** 所有的模板都以 template-* 为规范 */
     const templateDir = path.join(__dirname, '../template', `template-${result_template}`)
@@ -199,3 +247,23 @@ async function init() {
 init().catch((error) => {
     console.log(error)
 })
+
+let obj = [
+    {
+        title: "react",
+        value: "react",
+        color: blue,
+        variants: [
+            {
+                name: "react-17-vite",
+                display: "vite",
+                color: green
+            },
+            {
+                name: "react-18-webpack",
+                display: "webpack",
+                color: blue
+            }
+        ]
+    }
+]
