@@ -26,5 +26,5 @@ jobs:
       - run: npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
       - run: yarn
       - run: yarn build
-      - run: npm version ${GITHUB_REF#refs/tags/}
+      - run: npm --no-git-tag-version version ${GITHUB_REF#refs/tags/}
       - run: npm publish
