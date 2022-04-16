@@ -11,21 +11,18 @@ const FRAMEWORKS = [
     {
         title: "vue",
         name: "vue",
-        value: "vue",
         description: "vue3 jsx vite 版本",
         color: green,
     },
     {
         title: "rollup",
         name: "rollup",
-        value: "rollup",
         description: "一个简单的 rollup 打包库",
         color: red
     },
     {
         title: "react",
         name: "react",
-        value: "react",
         color: blue,
         variants: [
             {
@@ -209,7 +206,14 @@ async function init() {
     //     template = framework
     // }
 
-    let result_template = variant || framework || template
+    let result_template = variant || template || framework.name
+
+    // console.log('variant', variant)
+    // console.log('')
+    // console.log('framework', framework)
+    // console.log('')
+    // console.log('template', template)
+
 
     /** 所有的模板都以 template-* 为规范 */
     const templateDir = path.join(__dirname, '../template', `template-${result_template}`)
