@@ -11,6 +11,8 @@ module.exports = {
     ],
     rules: {
         // http://stylelint.cn/
+        'keyframes-name-pattern': null,
+        'selector-class-pattern': null,
         'comment-empty-line-before': null,
         'function-name-case': 'lower',
         'no-invalid-double-slash-comments': null,

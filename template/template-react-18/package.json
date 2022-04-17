@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^5.6.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -10,7 +11,10 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.44",
     "@types/react-dom": "^18.0.0",
+    "antd": "^4.19.5",
     "classnames": "^2.3.1",
+    "craco-alias": "^3.0.1",
+    "craco-less": "^2.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
@@ -25,12 +29,6 @@
     "eject": "react-scripts eject",
     "dev:dtpl": "tsc -P .dtpl/tsconfig.json -w"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -44,14 +42,12 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^6.4.3",
-    "craco-alias": "^3.0.1",
-    "craco-antd": "^1.19.0",
     "prettier": "^2.6.2",
     "sass": "^1.50.0",
-    "stylelint": "^14.6.1",
+    "stylelint": "^13.6.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^25.0.0",
     "stylelint-declaration-block-no-ignored-properties": "^2.5.0",
     "stylelint-order": "^5.0.0",
     "stylelint-scss": "^4.2.0"
