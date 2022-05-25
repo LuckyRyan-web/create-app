@@ -13,4 +13,18 @@ export default defineConfig({
             },
         ],
     },
+    css: {
+        preprocessorOptions: {
+            less: {
+                javascriptEnabled: true,
+                modifyVars: {
+                    '@primary-color': '#2C77F4',
+                    '@table-header-bg': '#f4f4f6',
+                },
+            },
+            scss: {
+                additionalData: "@import './src/style/base/base.scss';",
+            },
+        },
+    },
 })
