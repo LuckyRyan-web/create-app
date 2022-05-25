@@ -16,13 +16,4 @@ module.exports = {
     htmlWhitespaceSensitivity: 'ignore', //对HTML全局空白不敏感
     endOfLine: 'lf', //结束行形式
     embeddedLanguageFormatting: 'auto', //对引用代码进行格式化
-    overrides: [
-        {
-            files: '**/*.scss',
-            options: {
-                singleQuote: false,
-                semi: true,
-            },
-        },
-    ],
 };
