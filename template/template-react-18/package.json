@@ -42,10 +42,9 @@
     ]
   },
   "devDependencies": {
+    "@ryan-liu/stylelint-config": "^1.0.4",
     "prettier": "^2.6.2",
     "sass": "^1.50.0",
-    "stylelint": "^14.5.0",
-    "stylelint-config-standard-scss": "^3.0.0",
-    "stylelint-order": "^5.0.0"
+    "stylelint": "^14.5.0"
   }
 }

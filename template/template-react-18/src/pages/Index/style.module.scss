@@ -15,7 +15,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
     .AppLogo {
-        animation: App-logo-spin infinite 20s linear;
+        animation: app-logo-spin infinite 20s linear;
     }
 }
 
@@ -23,11 +23,11 @@
     display: flex;
     height: 40px;
     min-height: 100vh;
-    background-color: #282c34;
     color: white;
     font-size: calc(10px + 2vmin);
-    align-items: center;
+    background-color: #282c34;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
