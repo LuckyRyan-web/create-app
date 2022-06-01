@@ -1,4 +1,4 @@
-import prompts from "prompts"
+import prompts from 'prompts'
 import minimist from 'minimist'
 import { red, green, reset, blue } from 'kolorist'
 import fs from 'fs'
@@ -9,34 +9,34 @@ const cwd = process.cwd()
 /** 模板列表 */
 const FRAMEWORKS = [
     {
-        title: "vue",
-        name: "vue",
-        description: "vue3 jsx vite 版本",
+        title: 'vue',
+        name: 'vue',
+        description: 'vue3 jsx vite 版本',
         color: green,
     },
     {
-        title: "rollup",
-        name: "rollup",
-        description: "一个简单的 rollup 打包库",
-        color: red
+        title: 'rollup',
+        name: 'rollup',
+        description: '一个简单的 rollup 打包库',
+        color: red,
     },
     {
-        title: "react",
-        name: "react",
+        title: 'react',
+        name: 'react',
         color: blue,
         variants: [
             {
-                name: "react-17",
-                description: "react-17 vite 版本",
-                color: green
+                name: 'react-17',
+                description: 'react-17 vite 版本',
+                color: green,
             },
             {
-                name: "react-18",
-                description: "react-18 webpack5 版本",
-                color: blue
-            }
-        ]
-    }
+                name: 'react-18',
+                description: 'react-18 webpack5 版本',
+                color: blue,
+            },
+        ],
+    },
 ]
 
 /** 解析所有模板列表到数组 */
@@ -45,11 +45,12 @@ const TEMPLATES = FRAMEWORKS.map(
 ).reduce((a, b) => a.concat(b), [])
 
 function copy(src: string, dest: string) {
-    if (dest.endsWith('/.git') || dest.includes('/.git/')) {
+    if (src.endsWith('.git') || src.endsWith('node_modules')) {
         return
     }
 
     const stat = fs.statSync(src)
+
     if (stat.isDirectory()) {
         copyDir(src, dest)
     } else {
@@ -73,14 +74,24 @@ function toValidPackageName(projectName: string) {
 }
 
 function copyDir(srcDir: string, destDir: string) {
+    // console.log('srcDir', srcDir)
+
+    if (srcDir.endsWith('/node_modules')) {
+        return
+    }
+
+    if (srcDir.endsWith('/.git')) {
+        return
+    }
+
     fs.mkdirSync(destDir, { recursive: true })
     for (const file of fs.readdirSync(srcDir)) {
         const srcFile = path.resolve(srcDir, file)
         const destFile = path.resolve(destDir, file)
+
         copy(srcFile, destFile)
     }
 }
-
 
 function isEmpty(path: string) {
     return fs.readdirSync(path).length === 0
@@ -102,7 +113,6 @@ function emptyDir(dir: string) {
     }
 }
 
-
 async function init() {
     const argv = minimist(process.argv.slice(2), { string: ['_'] })
 
@@ -118,82 +128,89 @@ async function init() {
         [key: string]: any
     } = {}
 
-    result = await prompts([
-        {
-            type: targetDir ? null : 'text',
-            name: 'projectName',
-            message: reset('Project name:'),
-            initial: defaultProjectName,
-            onState: (state) =>
-                (targetDir = state.value.trim() || defaultProjectName)
-        },
-        {
-            type: () =>
-                !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'confirm',
-            name: 'overwrite',
-            message: () =>
-                (targetDir === '.'
-                    ? 'Current directory'
-                    : `Target directory "${targetDir}"`) +
-                ` is not empty. Remove existing files and continue?`
-        },
-        {
-            type: (_, { overwrite }: { overwrite?: boolean } = {}) => {
-                if (overwrite === false) {
-                    throw new Error(red('✖') + ' Operation cancelled')
-                }
-                return null
+    result = await prompts(
+        [
+            {
+                type: targetDir ? null : 'text',
+                name: 'projectName',
+                message: reset('Project name:'),
+                initial: defaultProjectName,
+                onState: (state) =>
+                    (targetDir = state.value.trim() || defaultProjectName),
             },
-            name: 'overwriteChecker'
-        },
-        {
-            type: () => 'text',
-            name: 'packageName',
-            message: reset('Package name:'),
-            initial: () => toValidPackageName(targetDir),
-            validate: (dir) =>
-                isValidPackageName(dir) || 'Invalid package.json name'
-        },
-        {
-            type: template && TEMPLATES.includes(template) ? null : 'select',
-            name: "framework",
-            message:
-                typeof template === 'string' && !TEMPLATES.includes(template)
-                    ? reset(
-                        `"${template}" isn't a valid template. Please choose from below: `
-                    )
-                    : reset('Select a framework:'),
-
-            initial: 0,
-            choices: FRAMEWORKS.map((framework) => {
-                const frameworkColor = framework.color
-                return {
-                    title: frameworkColor(framework.name),
-                    value: framework,
-                    description: framework.description
-                }
-            })
-        },
-        {
-            type: (framework) =>
-                framework && framework.variants ? 'select' : null,
-            name: 'variant',
-            message: reset('Select a variant:'),
-            choices: (framework) =>
-                framework.variants.map((variant) => {
-                    const variantColor = variant.color
-                    return {
-                        title: variantColor(variant.name),
-                        value: variant.name,
-                        description: variant.description
+            {
+                type: () =>
+                    !fs.existsSync(targetDir) || isEmpty(targetDir)
+                        ? null
+                        : 'confirm',
+                name: 'overwrite',
+                message: () =>
+                    (targetDir === '.'
+                        ? 'Current directory'
+                        : `Target directory "${targetDir}"`) +
+                    ` is not empty. Remove existing files and continue?`,
+            },
+            {
+                type: (_, { overwrite }: { overwrite?: boolean } = {}) => {
+                    if (overwrite === false) {
+                        throw new Error(red('✖') + ' Operation cancelled')
                     }
-                })
+                    return null
+                },
+                name: 'overwriteChecker',
+            },
+            {
+                type: () => 'text',
+                name: 'packageName',
+                message: reset('Package name:'),
+                initial: () => toValidPackageName(targetDir),
+                validate: (dir) =>
+                    isValidPackageName(dir) || 'Invalid package.json name',
+            },
+            {
+                type:
+                    template && TEMPLATES.includes(template) ? null : 'select',
+                name: 'framework',
+                message:
+                    typeof template === 'string' &&
+                    !TEMPLATES.includes(template)
+                        ? reset(
+                              `"${template}" isn't a valid template. Please choose from below: `
+                          )
+                        : reset('Select a framework:'),
+
+                initial: 0,
+                choices: FRAMEWORKS.map((framework) => {
+                    const frameworkColor = framework.color
+                    return {
+                        title: frameworkColor(framework.name),
+                        value: framework,
+                        description: framework.description,
+                    }
+                }),
+            },
+            {
+                type: (framework) =>
+                    framework && framework.variants ? 'select' : null,
+                name: 'variant',
+                message: reset('Select a variant:'),
+                choices: (framework) =>
+                    framework.variants.map((variant) => {
+                        const variantColor = variant.color
+                        return {
+                            title: variantColor(variant.name),
+                            value: variant.name,
+                            description: variant.description,
+                        }
+                    }),
+            },
+        ],
+        {
+            onCancel: () => {
+                throw new Error(red('✖') + ' Operation cancelled')
+            },
         }
-    ], {
-        onCancel: () => {
-            throw new Error(red('✖') + ' Operation cancelled');
-        },
-    })
+    )
 
     const { packageName, overwrite, framework, variant } = result
 
@@ -218,12 +235,15 @@ async function init() {
     // console.log('')
     // console.log('template', template)
 
-
     /** 所有的模板都以 template-* 为规范 */
-    const templateDir = path.join(__dirname, '../template', `template-${result_template}`)
+    const templateDir = path.join(
+        __dirname,
+        '../template',
+        `template-${result_template}`
+    )
 
     const renameFiles = {
-        _gitignore: '.gitignore'
+        _gitignore: '.gitignore',
     }
 
     const write = (file: string, content?: string) => {
@@ -249,7 +269,6 @@ async function init() {
     pkg.name = packageName || targetDir
 
     write('package.json', JSON.stringify(pkg, null, 2))
-
 }
 
 init().catch((error) => {
@@ -258,20 +277,20 @@ init().catch((error) => {
 
 let obj = [
     {
-        title: "react",
-        value: "react",
+        title: 'react',
+        value: 'react',
         color: blue,
         variants: [
             {
-                name: "react-17-vite",
-                display: "vite",
-                color: green
+                name: 'react-17-vite',
+                display: 'vite',
+                color: green,
             },
             {
-                name: "react-18-webpack",
-                display: "webpack",
-                color: blue
-            }
-        ]
-    }
+                name: 'react-18-webpack',
+                display: 'webpack',
+                color: blue,
+            },
+        ],
+    },
 ]
