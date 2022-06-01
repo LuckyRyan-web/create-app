@@ -22,74 +22,72 @@ import * as path from 'path'
        dot-template-vscode.minimatchOptions 来修改默认的配置)
  */
 
+export default function (source: _.Source): _.IDtplConfig {
+    return {
+        templates: [
+            {
+                name: 'template/page',
+                matches: (
+                    _minimatch: _.IMinimatchFunction,
+                    source: _.Source,
+                ) => {
+                    if (!source.isDirectory) {
+                        return false
+                    }
 
-       export default function (source: _.Source): _.IDtplConfig {
-        return {
-            templates: [
-                {
-                    name: 'template/page',
-                    matches: (
-                        _minimatch: _.IMinimatchFunction,
-                        source: _.Source
-                    ) => {
-                        if (!source.isDirectory) {
-                            return false
-                        }
-    
-                        const { rawModuleName, relativeFilePath } = source.basicData
-                        // 如果是小写开头的文件夹，不生成
-                        if (/^[a-z]/.test(rawModuleName)) {
-                            return false
-                        }
-    
-                        if (
-                            !relativeFilePath.startsWith('src/pages/') &&
-                            !relativeFilePath.startsWith('src/components')
-                        ) {
-                            return false
-                        }
-    
-                        return true
-                    },
-                    // inject: () => {
-                    //     const injects: _.IInject[] = []
-    
-                    //     const { rawModuleName, relativeFilePath } = source.basicData
-    
-                    //     return injects
-                    // }
+                    const { rawModuleName, relativeFilePath } = source.basicData
+                    // 如果是小写开头的文件夹，不生成
+                    if (/^[a-z]/.test(rawModuleName)) {
+                        return false
+                    }
+
+                    if (
+                        !relativeFilePath.startsWith('src/pages/') &&
+                        !relativeFilePath.startsWith('src/components')
+                    ) {
+                        return false
+                    }
+
+                    return true
                 },
-            ],
-    
-            /**
-             * 生成自定义的数据，在渲染模板时会使用，模板总共会从三处获取数据
-             *
-             *  1. 系统提供的文件本身的 basicData ，参考： https://github.com/qiu8310/dot-template#environment
-             *  2. 用户配置的只有指定的模板才能用的 localData，可以在 templates 中的对象中配置
-             *  3. 用户配置的所有模板都可以用的 globalData，如下所示
-             *
-             *
-             * 注意，在创建三种不同的文件时，数据结构会有细微不一样
-             *
-             * - 文件夹复制
-             *
-             *    模板文件夹内的文件都没有 localData，但它可以通过 ref 获取到文件夹模板的 data 数据，
-             *    而文件夹模板是可以包含 localData 的
-             *
-             * - 创建文本文件
-             *
-             *    文本文件默认的 data 会和 globalData 的数据 merge
-             *
-             *
-             * - 创建关联文件
-             *
-             *    源文件和关联文件可能都会有它自己的模板，有它自己的 localData，
-             *    所以它们的 data 会和各自的 localData 合并，有一点不一样的是，
-             *    关联文件可以通过 ref 来引用源文件的所有 data 数据
-             */
-            globalData: {
-                projectName: 'react-test',
+                // inject: () => {
+                //     const injects: _.IInject[] = []
+
+                //     const { rawModuleName, relativeFilePath } = source.basicData
+
+                //     return injects
+                // }
             },
-        }
+        ],
+
+        /**
+         * 生成自定义的数据，在渲染模板时会使用，模板总共会从三处获取数据
+         *
+         *  1. 系统提供的文件本身的 basicData ，参考： https://github.com/qiu8310/dot-template#environment
+         *  2. 用户配置的只有指定的模板才能用的 localData，可以在 templates 中的对象中配置
+         *  3. 用户配置的所有模板都可以用的 globalData，如下所示
+         *
+         *
+         * 注意，在创建三种不同的文件时，数据结构会有细微不一样
+         *
+         * - 文件夹复制
+         *
+         *    模板文件夹内的文件都没有 localData，但它可以通过 ref 获取到文件夹模板的 data 数据，
+         *    而文件夹模板是可以包含 localData 的
+         *
+         * - 创建文本文件
+         *
+         *    文本文件默认的 data 会和 globalData 的数据 merge
+         *
+         *
+         * - 创建关联文件
+         *
+         *    源文件和关联文件可能都会有它自己的模板，有它自己的 localData，
+         *    所以它们的 data 会和各自的 localData 合并，有一点不一样的是，
+         *    关联文件可以通过 ref 来引用源文件的所有 data 数据
+         */
+        globalData: {
+            projectName: 'react-test',
+        },
     }
-    
+}

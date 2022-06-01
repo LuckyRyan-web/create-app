@@ -1,3 +1,3 @@
 module.exports = {
-    extends: '@ryan-liu/stylelint-config'
+    extends: '@ryan-liu/stylelint-config',
 }
