@@ -2,7 +2,9 @@
     "compilerOptions": {
         "target": "ES2015",
         "module": "CommonJS",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+		"allowSyntheticDefaultImports": true
     },
     "include": ["dtpl.ts"]
 }

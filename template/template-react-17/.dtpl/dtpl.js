@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
   注意：
 
@@ -24,11 +24,11 @@ function default_1(source) {
         templates: [
             {
                 name: 'template/page',
-                matches: function (_minimatch, source) {
+                matches: (_minimatch, source) => {
                     if (!source.isDirectory) {
                         return false;
                     }
-                    var _a = source.basicData, rawModuleName = _a.rawModuleName, relativeFilePath = _a.relativeFilePath;
+                    const { rawModuleName, relativeFilePath } = source.basicData;
                     // 如果是小写开头的文件夹，不生成
                     if (/^[a-z]/.test(rawModuleName)) {
                         return false;
@@ -38,7 +38,12 @@ function default_1(source) {
                         return false;
                     }
                     return true;
-                }
+                },
+                // inject: () => {
+                //     const injects: _.IInject[] = []
+                //     const { rawModuleName, relativeFilePath } = source.basicData
+                //     return injects
+                // }
             },
         ],
         /**
@@ -68,8 +73,8 @@ function default_1(source) {
          *    关联文件可以通过 ref 来引用源文件的所有 data 数据
          */
         globalData: {
-            projectName: 'yzt-fe-mg-app'
-        }
+            projectName: 'react-test',
+        },
     };
 }
-exports["default"] = default_1;
+exports.default = default_1;
