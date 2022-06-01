@@ -1,1 +1,8 @@
 node_modules
+dist/**/*.css
+static/**/*.css
+*.tsx
+*.ts
+*.js
+*.jsx
+*.json

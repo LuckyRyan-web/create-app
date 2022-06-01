@@ -1,5 +1,46 @@
 /**
- * @author ly
- * @date 2022-03-13 18:01
- * @since 0.0.0
+ * @author liuyuan
+ * @date 2022-04-10 22:35
+ * @since 0.1.0
  */
+
+.App {
+    text-align: center;
+}
+
+.AppLogo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .AppLogo {
+        animation: app-logo-spin infinite 20s linear;
+    }
+}
+
+.AppHeader {
+    display: flex;
+    height: 40px;
+    min-height: 100vh;
+    color: white;
+    font-size: calc(10px + 2vmin);
+    background-color: #282c34;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.AppLink {
+    color: #61dafb;
+}
+
+@keyframes app-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
