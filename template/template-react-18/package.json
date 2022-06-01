@@ -46,6 +46,7 @@
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.5",
     "dot-template-types": "^0.3.0",
+    "eslint": "^8.16.0",
     "husky": "^8.0.1",
     "lint-staged": "^12.4.3",
     "prettier": "^2.6.2",
