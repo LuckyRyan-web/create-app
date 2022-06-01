@@ -45,6 +45,10 @@ const TEMPLATES = FRAMEWORKS.map(
 ).reduce((a, b) => a.concat(b), [])
 
 function copy(src: string, dest: string) {
+    if (dest.endsWith('/.git') || dest.includes('/.git/')) {
+        return
+    }
+
     const stat = fs.statSync(src)
     if (stat.isDirectory()) {
         copyDir(src, dest)
