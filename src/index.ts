@@ -1,6 +1,6 @@
 import prompts from 'prompts'
 import minimist from 'minimist'
-import { red, green, reset, blue } from 'kolorist'
+import { red, green, reset, blue, bgLightBlue } from 'kolorist'
 import fs from 'fs'
 import path from 'path'
 
@@ -34,6 +34,11 @@ const FRAMEWORKS = [
                 name: 'react-18',
                 description: 'react-18 webpack5 版本',
                 color: blue,
+            },
+            {
+                name: 'react-18-vite',
+                description: 'react-18 vite3 版本',
+                color: bgLightBlue,
             },
         ],
     },
@@ -117,7 +122,7 @@ async function init() {
     const argv = minimist(process.argv.slice(2), { string: ['_'] })
 
     /** 创建目标文件夹 */
-    let targetDir = argv._[0]
+    let targetDir = argv._[0] as string
 
     /** 获取 -t 参数 */
     let template = argv.template || argv.t
