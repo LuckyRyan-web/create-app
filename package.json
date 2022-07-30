@@ -1,6 +1,6 @@
 {
   "name": "@ryan-liu/create-app",
-  "version": "1.0.0",
+  "version": "1.0.18",
   "main": "dist/index.cjs",
   "license": "MIT",
   "type": "module",
