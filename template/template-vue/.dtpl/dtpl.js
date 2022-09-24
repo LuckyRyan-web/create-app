@@ -1,6 +1,5 @@
 "use strict";
-exports.__esModule = true;
-var path = require("path");
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
   注意：
 
@@ -20,101 +19,32 @@ var path = require("path");
        minimatch 的选项 matchBase 设置为 true 了，你可以用
        dot-template-vscode.minimatchOptions 来修改默认的配置)
  */
-function baseCheck(source) {
-    // 非文件夹，不生成
-    if (!source.isDirectory) {
-        return false;
-    }
-    // 如果是小写开头的文件夹，不生成
-    if (/^[a-z]/.test(source.basicData.rawModuleName)) {
-        return false;
-    }
-    return true;
-}
 function default_1(source) {
     return {
         templates: [
             {
                 name: 'template/component',
-                matches: function (_, source) {
-                    if (!baseCheck(source)) {
+                matches: (_minimatch, source) => {
+                    if (!source.isDirectory) {
+                        return false;
+                    }
+                    const { rawModuleName, relativeFilePath } = source.basicData;
+                    // 如果是小写开头的文件夹，不生成
+                    if (/^[a-z]/.test(rawModuleName)) {
+                        return false;
+                    }
+                    if (!relativeFilePath.startsWith('src/pages/') &&
+                        !relativeFilePath.startsWith('src/components')) {
                         return false;
                     }
                     return true;
-                }
-            },
-            /**
-             * =================  模板一 : 项目模板   =================
-             *    当新建一个以 "-example" 结尾的文件夹时，会自
-             *    动将 .dtpl/template/example 下的所有文件内
-             *    容复制到你新建的文件夹内
-             *
-             *    另外，由于以 .dtpl 结尾的文件是模板文件，所以
-             *    系统会用内部生成的数据和用户指定的数据去渲染模板，
-             *    生成新的内容，然后去除模板文件的后缀，写入新的对应
-             *    的文件内
-             *
-             *    支持的模板有： dtpl, ejs 和 nunjunk；对应的后缀名分别默认为： .dtpl, .ejs,  .njk
-             */
-            {
-                name: 'template/example',
-                matches: '*-example',
-                // 过滤模板内的文件，主要功能有：
-                //    * 删除掉指定的文件  ( 返回 false 即表示删除当前 target )
-                //    * 返回新的文件内容  ( 返回 {content: '...'} )
-                //    * 返回新的文件路径  ( 返回 {filePath: '...'}，如此例所示 )
-                filter: function (target) {
-                    // template/example/config 目录下的文件需要到最外层去
-                    // 所以此处需要修改它的路径
-                    var dir = path.dirname(target.toPath);
-                    if (path.basename(dir) === 'config') {
-                        return {
-                            filePath: path.resolve(dir, '..', '..', target.name)
-                        };
-                    }
-                    return true;
                 },
-                overwrite: false // 如果有重名文件，是否覆盖它；不覆盖会新建一个 .backup 目录来存放原文件
+                // inject: () => {
+                //     const injects: _.IInject[] = []
+                //     const { rawModuleName, relativeFilePath } = source.basicData
+                //     return injects
+                // }
             },
-            // =======================      模板一 配置结束     =======================
-            /**
-             * =================  模板二 : 文件模板   =================
-             *
-             * 当在项目的 widget 目录下新建 tsx 文件时，会自动使用 template/widget.tsx.dtpl 来生成文件内容
-             */
-            {
-                name: 'template/widget.tsx.dtpl',
-                matches: '*-example/widget/**/*.tsx'
-            },
-            // =======================      模板二 配置结束     =======================
-            /**
-             * =================  模板三 : 创建关联文件，并生成其内容   =================
-             */
-            {
-                name: 'template/page.tsx.dtpl',
-                matches: '*-example/page/**/*.tsx',
-                /**
-                 * 创建和此 page 相关联的 样式文件
-                 *
-                 * 在同目录下的 style 文件夹下创建一个同名的 css 文件，并且在当前文件中插入 require('style/[name].css') 的引用
-                 */
-                related: function (data) {
-                    var styleFile = "./style/" + data.fileName + ".css";
-                    return {
-                        relativePath: styleFile,
-                        reference: "require('" + styleFile + "')",
-                        // 自动插入引用在合适的地方，此配置只适用于 js/ts 文件对样式文件的引用
-                        // 如果是其它引用形式，可以通过指定 begin 和 end 坐标来插入到合适的地方
-                        smartInsertStyle: true
-                    };
-                }
-            },
-            // 给样式文件指定模板，这样当它被创建时，会使用此模板
-            {
-                name: 'template/page.css.dtpl',
-                matches: '*-example/page/**/*.css'
-            }
-            // =======================      模板三 配置结束     =======================
         ],
         /**
          * 生成自定义的数据，在渲染模板时会使用，模板总共会从三处获取数据
@@ -143,8 +73,8 @@ function default_1(source) {
          *    关联文件可以通过 ref 来引用源文件的所有 data 数据
          */
         globalData: {
-            projectName: 'vue'
-        }
+            projectName: 'react-test',
+        },
     };
 }
-exports["default"] = default_1;
+exports.default = default_1;

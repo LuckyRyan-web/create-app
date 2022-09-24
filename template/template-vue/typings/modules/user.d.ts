@@ -1,5 +1,5 @@
-export as namespace ApiUser
-
-export interface UserConfig {
-    name: string
+declare namespace ApiUser {
+    export interface Msg {
+        name: string
+    }
 }

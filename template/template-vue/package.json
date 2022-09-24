@@ -1,59 +1,30 @@
 {
-    "name": "vue-template",
-    "version": "1.0.0",
-    "description": "a simple vue template",
-    "author": "ryan-liu",
-    "scripts": {
-        "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
-        "serve": "vite preview",
-        "lint": "lint-staged",
-        "dev:dtpl": "tsc -P .dtpl/tsconfig.json -w"
-    },
-    "dependencies": {
-        "@vitejs/plugin-vue-jsx": "^1.1.8",
-        "classnames": "^2.3.1",
-        "vue": "^3.2.6"
-    },
-    "devDependencies": {
-        "@ryan-liu/eslint-config-jsx-config": "^1.0.2",
-        "@types/node": "^16.9.1",
-        "@vitejs/plugin-vue": "^1.6.1",
-        "@vue/compiler-sfc": "^3.2.6",
-        "@vueuse/core": "^6.3.3",
-        "dot-template-types": "^0.3.0",
-        "eslint": "^7.32.0",
-        "husky": "^7.0.2",
-        "lint-staged": "^11.1.2",
-        "prettier": "^2.3.2",
-        "sass": "^1.39.0",
-        "scss": "^0.2.4",
-        "stylelint": "^13.13.1",
-        "stylelint-config-prettier": "^8.0.2",
-        "stylelint-config-recess-order": "^2.5.0",
-        "stylelint-config-standard": "^22.0.0",
-        "stylelint-prettier": "^1.2.0",
-        "stylelint-scss": "^3.20.1",
-        "typescript": "^4.3.2",
-        "vite": "^2.5.4",
-        "vite-plugin-cdn-import": "^0.3.5",
-        "vue-router": "^4.0.11",
-        "vue-tsc": "^0.2.2"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
-    "lint-staged": {
-        "*.{ts,js,tsx,vue}": [
-            "eslint --fix --quiet"
-        ],
-        "*.json": [
-            "prettier --write"
-        ],
-        "*.{scss,less}": [
-            "stylelint --fix"
-        ]
-    }
+  "name": "vue",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "dev:dtpl": "tsc -P .dtpl/tsconfig.json -w"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@ryan-liu/eslint-config-ts": "^0.1.2",
+    "@ryan-liu/stylelint-config": "^1.0.8",
+    "@types/node": "^18.7.19",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "@vitejs/plugin-vue-jsx": "^2.0.1",
+    "dot-template-types": "^0.3.0",
+    "eslint": "^7.32.0",
+    "prettier": "^2.7.1",
+    "sass": "^1.55.0",
+    "stylelint": "^14.0.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.1.0",
+    "vue-tsc": "^0.40.4"
+  }
 }

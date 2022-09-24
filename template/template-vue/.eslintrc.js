@@ -1,3 +1,3 @@
 module.exports = {
-    extends: ['@ryan-liu/eslint-config-jsx-config'],
+    extends: ['@ryan-liu/ts'],
 }
