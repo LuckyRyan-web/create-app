@@ -1,0 +1,51 @@
+{
+    "name": "tsup-template",
+    "version": "1.0.0",
+    "description": "a simple tsup-template",
+    "author": "ryan-liu",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "license": "MIT",
+    "files": [
+        "dist"
+    ],
+    "keywords": [],
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "devDependencies": {
+        "@ryan-liu/eslint-config-jsx-config": "^1.0.2",
+        "eslint": "^7.32.0",
+        "husky": "^7.0.2",
+        "lint-staged": "^11.1.2",
+        "prettier": "^2.4.1",
+        "tslib": "^2.3.1",
+        "tsup": "^6.7.0",
+        "typescript": "^4.4.3"
+    },
+    "scripts": {
+        "dev": "npm run build -- --watch",
+        "build": "tsup",
+        "lint": "lint-staged"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{ts,js}": [
+            "eslint --fix --quiet"
+        ],
+        "*.json": [
+            "prettier --write"
+        ]
+    },
+    "dependencies": {}
+}

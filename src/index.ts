@@ -1,6 +1,6 @@
 import prompts from 'prompts'
 import minimist from 'minimist'
-import { red, green, reset, blue, bgLightBlue } from 'kolorist'
+import { red, green, reset, blue, bgLightBlue, bgLightYellow } from 'kolorist'
 import fs from 'fs'
 import path from 'path'
 
@@ -19,6 +19,12 @@ const FRAMEWORKS = [
         name: 'rollup',
         description: '一个简单的 rollup 打包库',
         color: red,
+    },
+    {
+        title: 'tsup',
+        name: 'tsup',
+        description: '一个简单的 tsup 打包库',
+        color: bgLightYellow,
     },
     {
         title: 'react',
